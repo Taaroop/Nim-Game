@@ -180,6 +180,7 @@
                 }, 1000);
             } else {
                 document.getElementById('buttons-container').style.display = 'block';
+                disableButtonsIfNegative();
             }
         }, 1000);
     }
@@ -192,6 +193,11 @@
             document.getElementById('result').style.display = 'block';
             document.getElementById('buttons-container').style.display = 'none';
         }
+    }
+
+    function disableButtonsIfNegative() {
+        document.getElementById('button1').disabled = totalItems - option1 < 0;
+        document.getElementById('button2').disabled = totalItems - option2 < 0;
     }
 </script>
 

@@ -106,7 +106,7 @@
         option1 = parseInt(document.getElementById('option1').value);
         option2 = parseInt(document.getElementById('option2').value);
 
-        if (option1 === option2 || option1 < 0 || option2 < 0 || totalItems < 0) {
+        if (option1 < 0 || option2 < 0 || totalItems < 0 || option1 > totalItems || option2 > totalItems) {
             alert("Invalid parameters. Game terminated.");
             return;
         }

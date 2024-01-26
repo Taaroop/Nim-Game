@@ -82,6 +82,7 @@
     let option1;
     let option2;
     let playerTurnFlag;
+    let botLastMove;
 
     function play(x, y, n) {
         let a = Math.min(x, y);
@@ -119,12 +120,17 @@
             document.getElementById('result').innerText = "Okay, you go first!";
             playerTurnFlag = true;
         } else {
-            document.getElementById('result').innerText = "Okay, I go first!";
-            playerTurnFlag = false;
-            makeBotMove();
+            const botChoice = play(option1, option2, totalItems - option1) === "L" ? option1 : option2;
+            totalItems -= botChoice;
+
+            updateTotalItems();
+
+            document.getElementById('result').innerText = `Okay, I go first!\nI take ${botChoice} item(s). Items remaining: ${totalItems}`;
+            document.getElementById('result').style.display = 'block';
+            botLastMove = botChoice;
+            playerTurnFlag = true;
         }
 
-        document.getElementById('result').style.display = 'block';
         document.getElementById('buttons-container').style.display = 'block';
         updateButtonLabels();
         checkValidMoves();
@@ -163,16 +169,16 @@
 
             document.getElementById('result').innerText = `I take ${botChoice} item(s). Items remaining: ${totalItems}`;
             document.getElementById('result').style.display = 'block';
+            botLastMove = botChoice;
 
             checkValidMoves();
 
             if (totalItems <= 0) {
                 setTimeout(() => {
-                    document.getElementById('result').innerText = `I take ${botChoice} item(s). Items remaining: ${totalItems}\nYou have no valid moves! The bot won!`;
+                    document.getElementById('result').innerText = `I take ${botLastMove} item(s). Items remaining: ${totalItems}\nYou have no valid moves! The bot won!`;
                     document.getElementById('result').style.display = 'block';
                 }, 1000);
             } else {
-                playerTurnFlag = true; // Set player turn after bot's move
                 document.getElementById('buttons-container').style.display = 'block';
             }
         }, 1000);
@@ -182,7 +188,7 @@
         if (totalItems <= Math.min(option1, option2)) {
             document.getElementById('button1').disabled = true;
             document.getElementById('button2').disabled = true;
-            document.getElementById('result').innerText = `I take ${botChoice} item(s). Items remaining: ${totalItems}\nYou have no valid moves! The bot won!`;
+            document.getElementById('result').innerText = `I take ${botLastMove} item(s). Items remaining: ${totalItems}\nYou have no valid moves! The bot won!`;
             document.getElementById('result').style.display = 'block';
             document.getElementById('buttons-container').style.display = 'none';
         }
